@@ -1,60 +1,64 @@
 {
-  "expo": {
-    "name": "ScholarGen",
-    "slug": "scholargen",
-    "version": "1.0.3",
-    "orientation": "portrait",
-    "icon": "./assets/app-icon-new.png",
-    "userInterfaceStyle": "light",
-    "splash": {
-      "image": "./assets/app-icon-new.png",
-      "resizeMode": "contain",
+  "name": "ScholarGen",
+  "slug": "scholargen",
+  "owner": "manygrame",
+  "version": "1.0.0",
+  "orientation": "portrait",
+  "icon": "./assets/UTME-DROID_112536.png",
+  "userInterfaceStyle": "light",
+  "splash": {
+    "image": "./assets/splash-logo.png",
+    "resizeMode": "contain",
+    "backgroundColor": "#ffffff"
+  },
+  "ios": {
+    "supportsTablet": true,
+    "bundleIdentifier": "com.timothyomhensele.scholargen",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    }
+  },
+  "android": {
+    "adaptiveIcon": {
+      "foregroundImage": "./assets/splash-logo.png",
       "backgroundColor": "#ffffff"
     },
-    "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.scholargen.utme",
-      "runtimeVersion": {
-        "policy": "appVersion"
-      }
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/app-icon-new.png",
-        "backgroundColor": "#ffffff"
-      },
-      "edgeToEdgeEnabled": true,
-      "package": "com.scholargen.utme",
-      "versionCode": 4,
-      "runtimeVersion": "1.0.3",
-      "permissions": [
-        "INTERNET"
-      ]
-    },
-    "web": {
-      "favicon": "./assets/app-icon-new.png"
-    },
-    "plugins": [
-      "expo-font",
-      [
-        "expo-build-properties",
-        {
-          "android": {
-            "kotlinVersion": "2.0.20"
-          }
+    "edgeToEdgeEnabled": true,
+    "package": "com.timothyomhensele.scholargen",
+    "runtimeVersion": "1.0.0",
+    "permissions": [
+      "INTERNET"
+    ]
+  },
+  "web": {
+    "favicon": "./assets/UTME-DROID_112536.png"
+  },
+  "plugins": [
+    "expo-font",
+    "expo-router",
+    [
+      "expo-build-properties",
+      {
+        "android": {
+          "kotlinVersion": "2.0.21"
         }
-      ],
-      "expo-router"
-    ],
-    "assetBundlePatterns": [
-      "assets/**/*"
-    ],
-    "extra": {
-      "apiUrl": "https://api.scholargens.com/api",
-      "eas": {
-        "projectId": "0ae18e11-9d2f-40a6-b9d7-839f999a6439"
       }
+    ]
+  ],
+  "assetBundlePatterns": [
+    "assets/**/*"
+  ],
+  "extra": {
+    "eas": {
+      "projectId": "10a2ba52-2a27-4ff8-93a7-1c899cb26dd2"
     },
-    "owner": "marvislab"
-  }
+    "router": {
+      "origin": false
+    }
+  },
+  "sdkVersion": "52.0.0",
+  "platforms": [
+    "ios",
+    "android"
+  ]
 }
