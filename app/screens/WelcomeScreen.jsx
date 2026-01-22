@@ -8,7 +8,6 @@ import {
   StatusBar,
   KeyboardAvoidingView,
   Platform,
-  Image,
   ActivityIndicator
 } from 'react-native';
 import { useTheme } from '../context/ThemeContext';
@@ -159,8 +158,9 @@ const WelcomeScreen = ({ navigation }) => {
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
       <StatusBar barStyle={theme.mode === 'dark' ? 'light-content' : 'dark-content'} />
-      <ScrollView contentContainerStyle={styles.scrollContent}>
-        {/* Header */}
+      <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
+
+        {/* --- Header (No Logo) --- */}
         <View style={styles.header}>
           <Text style={[styles.title, { color: theme.text }]}>Welcome to ScholarGen</Text>
           <Text style={[styles.subtitle, { color: theme.textSecondary }]}>
@@ -256,14 +256,6 @@ const WelcomeScreen = ({ navigation }) => {
           </TouchableOpacity>
         </View>
 
-        {/* Logo at bottom center */}
-        <View style={styles.logoContainer}>
-          <Image
-            source={require('../../assets/app-icon-new.png')}
-            style={styles.logo}
-            resizeMode="contain"
-          />
-        </View>
       </ScrollView>
     </KeyboardAvoidingView>
   );
@@ -276,19 +268,21 @@ const styles = StyleSheet.create({
   scrollContent: {
     flexGrow: 1,
     padding: 24,
-    paddingTop: 60,
+    paddingTop: 80, // Increased top padding to center form better since logo is gone
   },
   header: {
-    marginBottom: 32,
+    marginBottom: 40,
   },
   title: {
     fontSize: 28,
     marginBottom: 8,
     fontFamily: 'DMSans-Bold',
+    textAlign: 'left', // Aligned left for cleaner form look
   },
   subtitle: {
     fontSize: 16,
     fontFamily: 'DMSans-Regular',
+    textAlign: 'left',
   },
   tabContainer: {
     flexDirection: 'row',
@@ -331,20 +325,12 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     alignItems: 'center',
     marginTop: 8,
+    marginBottom: 20,
   },
   submitButtonText: {
     color: '#FFFFFF',
     fontSize: 16,
     fontFamily: 'DMSans-Bold',
-  },
-  logoContainer: {
-    alignItems: 'center',
-    paddingVertical: 24,
-    marginTop: 'auto',
-  },
-  logo: {
-    width: 120,
-    height: 120,
   },
 });
 

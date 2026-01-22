@@ -11,7 +11,7 @@ export const lightTheme = {
   text: "#000000",
   textSecondary: "#666666",
   border: "#e9ecef",
-  primary: "#6366F1", // Modern Indigo
+  primary: "#448AFF", // Modern Indigo
   tint: "#E3F2FD", // Light Blue tint
 };
 
