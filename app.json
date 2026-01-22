@@ -1,0 +1,60 @@
+{
+  "expo": {
+    "name": "ScholarGen",
+    "slug": "scholargen",
+    "version": "1.0.3",
+    "orientation": "portrait",
+    "icon": "./assets/app-icon-new.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/app-icon-new.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.scholargen.utme",
+      "runtimeVersion": {
+        "policy": "appVersion"
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/app-icon-new.png",
+        "backgroundColor": "#ffffff"
+      },
+      "edgeToEdgeEnabled": true,
+      "package": "com.scholargen.utme",
+      "versionCode": 4,
+      "runtimeVersion": "1.0.3",
+      "permissions": [
+        "INTERNET"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/app-icon-new.png"
+    },
+    "plugins": [
+      "expo-font",
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "kotlinVersion": "2.0.20"
+          }
+        }
+      ],
+      "expo-router"
+    ],
+    "assetBundlePatterns": [
+      "assets/**/*"
+    ],
+    "extra": {
+      "apiUrl": "https://api.scholargens.com/api",
+      "eas": {
+        "projectId": "0ae18e11-9d2f-40a6-b9d7-839f999a6439"
+      }
+    },
+    "owner": "marvislab"
+  }
+}
