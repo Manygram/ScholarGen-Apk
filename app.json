@@ -6,42 +6,40 @@
   "orientation": "portrait",
   "icon": "./assets/UTME-DROID_112536 (1).png",
   "userInterfaceStyle": "light",
-
+  "cli": {
+    "appVersionSource": "app.json"
+  },
   "splash": {
     "image": "./assets/splash-logo.png",
     "resizeMode": "contain",
     "backgroundColor": "#ffffff"
   },
-
   "ios": {
     "supportsTablet": true,
     "bundleIdentifier": "com.timothyomhensele.scholargen",
+    "buildNumber": "1",
     "runtimeVersion": {
       "policy": "appVersion"
+    },
+    "infoPlist": {
+      "ITSAppUsesNonExemptEncryption": false
     }
   },
-
   "android": {
     "package": "com.timothyomhensele.scholargen",
-
     "versionCode": 2,
-
     "adaptiveIcon": {
       "foregroundImage": "./assets/UTME-DROID_112536 (1).png",
       "backgroundColor": "#ffffff"
     },
-
     "edgeToEdgeEnabled": true,
-
     "permissions": [
       "INTERNET"
     ]
   },
-
   "web": {
     "favicon": "./assets/UTME-DROID_112536 (1).png"
   },
-
   "plugins": [
     "expo-font",
     "expo-router",
@@ -54,11 +52,9 @@
       }
     ]
   ],
-
   "assetBundlePatterns": [
     "assets/**/*"
   ],
-
   "extra": {
     "eas": {
       "projectId": "10a2ba52-2a27-4ff8-93a7-1c899cb26dd2"
@@ -67,7 +63,9 @@
       "origin": false
     }
   },
-
   "sdkVersion": "54.0.0",
-  "platforms": ["ios", "android"]
+  "platforms": [
+    "ios",
+    "android"
+  ]
 }
