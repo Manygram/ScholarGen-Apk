@@ -2,10 +2,13 @@
   "name": "ScholarGen",
   "slug": "scholargen",
   "owner": "manygrame",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "orientation": "portrait",
-  "icon": "./assets/UTME-DROID_112536.png",
+  "icon": "./assets/UTME-DROID_112536 (1).png",
   "userInterfaceStyle": "light",
+  "cli": {
+    "appVersionSource": "app.json"
+  },
   "splash": {
     "image": "./assets/splash-logo.png",
     "resizeMode": "contain",
@@ -14,24 +17,28 @@
   "ios": {
     "supportsTablet": true,
     "bundleIdentifier": "com.timothyomhensele.scholargen",
+    "buildNumber": "1",
     "runtimeVersion": {
       "policy": "appVersion"
+    },
+    "infoPlist": {
+      "ITSAppUsesNonExemptEncryption": false
     }
   },
   "android": {
+    "package": "com.timothyomhensele.scholargen",
+    "versionCode": 2,
     "adaptiveIcon": {
-      "foregroundImage": "./assets/splash-logo.png",
+      "foregroundImage": "./assets/UTME-DROID_112536 (1).png",
       "backgroundColor": "#ffffff"
     },
     "edgeToEdgeEnabled": true,
-    "package": "com.timothyomhensele.scholargen",
-    "runtimeVersion": "1.0.0",
     "permissions": [
       "INTERNET"
     ]
   },
   "web": {
-    "favicon": "./assets/UTME-DROID_112536.png"
+    "favicon": "./assets/UTME-DROID_112536 (1).png"
   },
   "plugins": [
     "expo-font",
