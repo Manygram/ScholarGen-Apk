@@ -14,5 +14,10 @@ export const subscriptionService = {
     // Verify Paystack transaction
     verifyTransaction: async (reference) => {
         return apiClient.get(`/subscriptions/verify/${reference}`);
+    },
+
+    // Simulate Apple payment
+    simulateApplePayment: async () => {
+        return apiClient.post('/subscription/apple');
     }
 };

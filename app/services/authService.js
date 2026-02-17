@@ -34,6 +34,24 @@ export const authService = {
     return apiClient.post("/auth/change-password", { currentPassword, newPassword });
   },
 
+  // ✅ NEW: Account Deletion Function
+  deleteAccount: async () => {
+    try {
+      // 1. Call the backend to delete the user from the database
+      // This matches the route 'router.delete("/profile")' inside user.routes.ts
+      // (Assuming user routes are mounted at '/users')
+      const response = await apiClient.delete("/users/profile");
+
+      // 2. Perform local cleanup (same as logout)
+      await authService.logout();
+
+      return response.data;
+    } catch (error) {
+      console.error("[authService] Error deleting account:", error);
+      throw error; // Throw error so SettingsScreen can show the Alert
+    }
+  },
+
   saveSession: async (userData) => {
     try {
       await AsyncStorage.setItem("user", JSON.stringify(userData));

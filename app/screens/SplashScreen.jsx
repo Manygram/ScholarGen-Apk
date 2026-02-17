@@ -11,7 +11,7 @@ const SplashScreen = ({ navigation }) => {
     const checkSession = async () => {
       try {
         // Wait at least 2 seconds for branding
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        await new Promise(resolve => setTimeout(resolve, 10000));
 
         const session = await authService.getSession();
         if (session && session.token) {

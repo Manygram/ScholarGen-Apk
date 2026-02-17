@@ -4,6 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../context/ThemeContext';
 import CommonHeader from '../components/CommonHeader';
 import Toast from 'react-native-toast-message';
+import { subscriptionService } from '../services/subscriptionService';
 
 const SubscriptionScreen = ({ navigation }) => {
   const { theme, isDarkMode } = useTheme();
@@ -19,6 +20,29 @@ const SubscriptionScreen = ({ navigation }) => {
       <Text style={[styles.featureText, { color: theme.text }]}>{text}</Text>
     </View>
   );
+
+  const handleApplePayment = async () => {
+    try {
+      const response = await subscriptionService.simulateApplePayment();
+      console.log("Apple Payment Response:", response);
+      if (response.data) {
+        Toast.show({
+          type: 'success',
+          text1: 'Payment Successful',
+          text2: `Plan activated for ${response.data.name || 'User'}`
+        });
+        // You might want to navigate or update state here based on the response
+        // e.g., setActivePlan('premium'); or navigation.goBack();
+      }
+    } catch (error) {
+      console.error("Apple Payment Error:", error);
+      Toast.show({
+        type: 'error',
+        text1: 'Payment Failed',
+        text2: error.message || 'An error occurred'
+      });
+    }
+  };
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
@@ -54,6 +78,17 @@ const SubscriptionScreen = ({ navigation }) => {
           <Text style={[styles.price, { color: theme.text }]}>₦3,000</Text>
           <Text style={[styles.period, { color: theme.textSecondary }]}>/ 3 months</Text>
         </View>
+
+        {/* Apple Payment Button */}
+        {Platform.OS === 'ios' && (
+          <TouchableOpacity
+            style={[styles.appleBtn, { backgroundColor: '#000', marginBottom: 15 }]}
+            onPress={handleApplePayment}
+          >
+            <Ionicons name="logo-apple" size={24} color="#fff" style={{ marginRight: 10 }} />
+            <Text style={styles.appleBtnText}>Pay with Apple</Text>
+          </TouchableOpacity>
+        )}
 
       </ScrollView>
 
@@ -108,6 +143,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center', alignItems: 'center',
   },
   upgradeBtnText: { color: '#fff', fontSize: 16, fontFamily: 'DMSans-Bold' },
+  appleBtn: {
+    flexDirection: 'row',
+    borderRadius: 12, height: 50,
+    justifyContent: 'center', alignItems: 'center',
+  },
+  appleBtnText: { color: '#fff', fontSize: 16, fontFamily: 'DMSans-Bold' },
 });
 
 export default SubscriptionScreen;

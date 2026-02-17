@@ -10,6 +10,9 @@ import { ThemeProvider } from "./app/context/ThemeContext";
 import { DatabaseProvider } from "./app/context/DatabaseContext";
 import { AuthProvider } from "./app/context/AuthContext";
 
+// 👉 NOTE: Imported the IAP Context wrapper here
+import { withIAPContext } from "react-native-iap";
+
 // Import all screens
 import SplashScreen from "./app/screens/SplashScreen.jsx";
 import WelcomeScreen from "./app/screens/WelcomeScreen.jsx";
@@ -64,11 +67,6 @@ const AppNavigator = ({ initialRoute }) => {
   // Listen for unexpected logout (e.g. session expiry)
   useEffect(() => {
     if (isMounted && !loading && !user) {
-      // Only redirect if we are grounded and user becomes null
-      // We can check if we are already on a public screen?
-      // For simplicity, just reset to Welcome.
-      // This covers the case where the user WAS logged in, token expired,
-      // AuthContext triggered logout, user became null.
       console.log("[AppNavigator] User logged out, resetting to Welcome");
       navigation.reset({
         index: 0,
@@ -120,7 +118,8 @@ const AppNavigator = ({ initialRoute }) => {
   );
 };
 
-export default function App() {
+// 👉 NOTE: Changed from `export default function App()` to `const App = () =>` so we can wrap it below
+const App = () => {
   const [isReady, setIsReady] = useState(false);
   const [initialRoute, setInitialRoute] = useState("Splash");
 
@@ -184,4 +183,7 @@ export default function App() {
       />
     </>
   );
-}
+};
+
+// 👉 NOTE: This wraps your entire app with the in-app purchase context!
+export default withIAPContext(App);

@@ -11,6 +11,7 @@ import {
   Image,
   Platform,
   StatusBar,
+  ActivityIndicator
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../context/ThemeContext';
@@ -21,7 +22,6 @@ import CommonHeader from '../components/CommonHeader';
 import { useDatabase } from '../context/DatabaseContext';
 import { apiClient } from '../services/apiClient';
 import Toast from 'react-native-toast-message';
-import { ActivityIndicator } from 'react-native';
 
 const SettingsScreen = ({ navigation }) => {
   const { theme, isDarkMode, toggleTheme } = useTheme();
@@ -29,6 +29,7 @@ const SettingsScreen = ({ navigation }) => {
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const [user, setUser] = useState({ name: 'User', email: 'user@example.com' });
   const [isSyncing, setIsSyncing] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false); // NEW: State for deletion loading
 
   const handleSync = async () => {
     if (isSyncing) return;
@@ -95,6 +96,51 @@ const SettingsScreen = ({ navigation }) => {
     );
   };
 
+  // ✅ NEW: Handle Account Deletion
+  const handleDeleteAccount = () => {
+    Alert.alert(
+      'Delete Account',
+      'Are you sure you want to permanently delete your account? This action cannot be undone and all your progress will be lost.',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Delete Forever',
+          style: 'destructive', // Shows as red on iOS
+          onPress: async () => {
+            if (isDeleting) return;
+
+            try {
+              setIsDeleting(true);
+
+              // Call the new service method we added
+              await authService.deleteAccount();
+
+              Toast.show({
+                type: 'success',
+                text1: 'Account Deleted',
+                text2: 'We are sorry to see you go.'
+              });
+
+              // Reset to Welcome Screen
+              navigation.reset({
+                index: 0,
+                routes: [{ name: 'Welcome' }],
+              });
+
+            } catch (error) {
+              Toast.show({
+                type: 'error',
+                text1: 'Deletion Failed',
+                text2: error.message || 'Please check your connection and try again.'
+              });
+              setIsDeleting(false);
+            }
+          }
+        }
+      ]
+    );
+  };
+
   const SettingItem = ({ icon, title, subtitle, onPress, rightComponent, showArrow = true, lastItem = false }) => (
     <TouchableOpacity style={[styles.settingItem, { borderBottomColor: theme.border, borderBottomWidth: lastItem ? 0 : 1 }]} onPress={onPress} activeOpacity={0.7} disabled={!onPress && !rightComponent}>
       <View style={styles.settingLeft}>
@@ -120,8 +166,7 @@ const SettingsScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
       <StatusBar barStyle={isDarkMode ? "light-content" : "dark-content"} backgroundColor={theme.background} />
-      {/* Header */}
-      {/* Header */}
+
       <CommonHeader title="Settings" subtitle="Manage your account and preferences" />
 
       <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
@@ -222,7 +267,7 @@ const SettingsScreen = ({ navigation }) => {
             icon="information-circle-outline"
             title="About"
             subtitle="App version 1.0.0"
-            onPress={() => Alert.alert('ScholarGen', 'Version 1.0.0\nCompete Study Companion.')}
+            onPress={() => Alert.alert('ScholarGen', 'Version 1.0.0\nComplete Study Companion.')}
           />
           <SettingItem
             icon="star-outline"
@@ -233,11 +278,31 @@ const SettingsScreen = ({ navigation }) => {
           />
         </View>
 
-        {/* Logout Section */}
+        {/* Danger Zone: Logout & Delete */}
         <View style={[styles.settingsSection, { backgroundColor: theme.card, marginTop: 24 }]}>
-          <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-            <Ionicons name="log-out-outline" size={20} color="#EF4444" />
-            <Text style={styles.logoutText}>Logout</Text>
+          {/* Logout Button */}
+          <TouchableOpacity
+            style={[styles.logoutButton, { borderBottomWidth: 1, borderBottomColor: theme.border }]}
+            onPress={handleLogout}
+          >
+            <Ionicons name="log-out-outline" size={20} color={theme.text} />
+            <Text style={[styles.logoutText, { color: theme.text }]}>Logout</Text>
+          </TouchableOpacity>
+
+          {/* Delete Account Button - NEW */}
+          <TouchableOpacity
+            style={styles.logoutButton}
+            onPress={handleDeleteAccount}
+            disabled={isDeleting}
+          >
+            {isDeleting ? (
+              <ActivityIndicator size="small" color="#EF4444" />
+            ) : (
+              <Ionicons name="trash-outline" size={20} color="#EF4444" />
+            )}
+            <Text style={[styles.logoutText, { color: "#EF4444" }]}>
+              {isDeleting ? "Deleting..." : "Delete Account"}
+            </Text>
           </TouchableOpacity>
         </View>
 
@@ -253,8 +318,6 @@ const SettingsScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  // Header styles removed (handled by CommonHeader)
-
   scrollView: { flex: 1 },
 
   profileSection: { padding: 20 },
@@ -296,7 +359,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row', alignItems: 'center', justifyContent: 'center',
     paddingVertical: 16,
   },
-  logoutText: { fontSize: 16, fontWeight: '600', color: '#EF4444', marginLeft: 8, fontFamily: 'DMSans-SemiBold' },
+  logoutText: { fontSize: 16, fontWeight: '600', marginLeft: 8, fontFamily: 'DMSans-SemiBold' },
 
   footer: { alignItems: 'center', paddingVertical: 40, paddingBottom: 60 },
   footerLogo: { width: 60, height: 60, marginBottom: 12 },
